@@ -299,7 +299,10 @@ describe('primus-rooms', function () {
           spark.join(data, function () {
             if (4 === ++total) {
               --total;
-              sender.room([1, 'room2', 'room3']).write('hi');
+              sender.room(1).write('hi');
+              sender.room('room2').write('hello');
+              sender.room('room3').write('hai');
+
             }
           });
         });
@@ -316,12 +319,12 @@ describe('primus-rooms', function () {
       });
 
       c2.on('data', function (msg) {
-        expect(msg).to.be('hi');
+        expect(msg).to.be('hello');
         finish();
       });
 
       c3.on('data', function (msg) {
-        expect(msg).to.be('hi');
+        expect(msg).to.be('hai');
         finish();
       });
 
